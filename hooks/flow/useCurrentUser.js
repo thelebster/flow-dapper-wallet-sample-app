@@ -1,33 +1,22 @@
 import * as fcl from '@onflow/fcl';
 import { useEffect, useState } from 'react';
+import { getOpenIDData } from '../../lib/flow/utils';
 
 export const useCurrentUser = () => {
-  const [currentUser, setUser] = useState({ loggedIn: false, addr: null });
-  const [openIDData, setOpenIDData] = useState({ email: null });
+  const [currentUser, setUser] = useState({ loggedIn: false, addr: null, email: null });
   useEffect(() => {
     return fcl.currentUser.subscribe(async (user) => {
-      const openIDService = user.services?.find((service) => service.type === 'open-id');
-      console.debug(openIDService);
-      if (openIDService?.data) {
-        // Send encrypted JWT to backend for verification.
-        const response = await fetch('/api/flow/open-id', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(openIDService?.data),
-        });
-
-        const data = await response.json();
-        setOpenIDData(JSON.parse(data));
+      console.log(user);
+      if (user?.loggedIn) {
+        const openIDData = await getOpenIDData(user);
+        console.log(openIDData);
+        setUser({ ...user, ...openIDData });
       } else {
-        setOpenIDData({ email: null });
+        setUser(user);
       }
-      setUser(user);
     });
   }, []);
   return {
     currentUser,
-    openIDData,
   };
 };

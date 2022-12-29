@@ -28,10 +28,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { token } = req.body;
     const jwtToken = await decrypt(token);
     const payload = await verify(jwtToken);
-    res.status(200).json(payload);
+    return res.status(200).send(payload);
   } catch (err: any) {
-    console.error(err);
-    res.status(400).json({ error: err.message });
+    return res.status(400).send({ error: err.message });
   }
 }
 
