@@ -30,8 +30,9 @@ const LogInButton = () => {
           } finally {
             setLoading(false);
           }
-        }
-        }>{currentUser?.loggedIn ? 'Log Out' : 'Log In'}
+        }}
+      >
+        {currentUser?.loggedIn ? 'Log Out' : 'Log In'}
       </Button>
     </>
   );

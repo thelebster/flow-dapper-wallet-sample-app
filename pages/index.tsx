@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { useState } from 'react';
 import styles from '../styles/Home.module.css';
 
-import { LogInButton } from '../components/flow';
+import { LogInButton, SayHiButton } from '../components/flow';
 import { useCurrentUser } from '../hooks/flow/useCurrentUser';
 import { getAccountProofData } from '../lib/flow/utils';
 import { Button } from 'antd';
@@ -66,6 +66,11 @@ export default function Home() {
             >
               Verify Account
             </Button>
+          </div>
+          <div style={{
+            padding: "12px",
+          }}>
+            <SayHiButton />
           </div>
         </div>
       </main>
